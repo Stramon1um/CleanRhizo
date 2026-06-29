@@ -8,24 +8,29 @@ format:
       text: |
         <style>
           h1.title { display: none !important; }
-          body.dark, body.dark .quarto-container, body.dark main,
-          body.dark .page-layout-full, body.dark #quarto-content {
-            background: #141A13 !important;
-            color: #D8E8D5 !important;
-          }
-          body.dark .navbar { background: #1E261D !important; }
-          body.dark .page-footer { background: #1E261D !important; }
-        </style>
-        <script>
-          (function() {
-            var mq = window.matchMedia('(prefers-color-scheme: dark)');
-            function applyDark(on) {
-              document.body.classList.toggle('dark', on);
+          @media (prefers-color-scheme: dark) {
+            html, body,
+            body .quarto-container,
+            body main,
+            body #quarto-content,
+            body .page-layout-full,
+            body .container-fluid,
+            body .container,
+            body #quarto-document-content,
+            body .content {
+              background-color: #141A13 !important;
+              background: #141A13 !important;
+              color: #D8E8D5 !important;
             }
-            applyDark(mq.matches);
-            mq.addEventListener('change', function(e) { applyDark(e.matches); });
-          })();
-        </script>
+            body .navbar { background-color: #1E261D !important; }
+            body .navbar * { color: #A8C5A0 !important; }
+            body .page-footer,
+            body footer {
+              background-color: #1E261D !important;
+              color: #7A9975 !important;
+            }
+          }
+        </style>
 filters:
   - shinylive
 ---
