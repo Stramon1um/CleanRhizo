@@ -250,6 +250,9 @@ ui <- page_fluid(
 
   tags$head(tags$style(HTML("
     html, body { padding: 1rem 1.5rem !important; margin: 0 !important; background: #F5F7F5 !important; }
+    @media (prefers-color-scheme: dark) {
+      html, body { background: #141A13 !important; color: #D8E8D5 !important; }
+    }
     h1.title { display: none !important; }
     .wr-card { background: #fff; border: 1px solid #DDE5DB; border-radius: 10px; padding: 1.8rem 2.2rem; margin-bottom: 1.4rem; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
     .app-title    { font-size: 1.55rem; font-weight: 800; color: #1A1F1A; margin-bottom: .15rem; letter-spacing: -.4px; }
