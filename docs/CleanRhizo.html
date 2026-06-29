@@ -71,10 +71,26 @@ ul.task-list li input[type="checkbox"] {
     body .container-fluid,
     body .container,
     body #quarto-document-content,
-    body .content {
+    body .content,
+    body .cell,
+    body .cell-output-display,
+    body .shinylive-wrapper,
+    body iframe,
+    body .bslib-page-fill {
       background-color: #141A13 !important;
       background: #141A13 !important;
       color: #D8E8D5 !important;
+    }
+    body .cell,
+    body .cell-output-display,
+    body .shinylive-wrapper {
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+    }
+    body iframe {
+      border: none !important;
+      outline: none !important;
     }
     body .navbar { background-color: #1E261D !important; }
     body .navbar * { color: #A8C5A0 !important; }
