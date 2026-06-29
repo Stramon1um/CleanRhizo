@@ -1,0 +1,34 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "CleanRhizo"
+  search: false
+  page-navigation: false
+  back-to-top-navigation: false
+  bread-crumbs: false
+  navbar:
+    right:
+      - icon: envelope-fill
+        href: mailto:mauro.maver@univr.it
+    background: primary
+  page-footer:
+    right: "Created by Mauro Maver"
+    background: primary
+    foreground: primary
+
+format:
+  html:
+    smooth-scroll: true
+    theme: Minty
+    toc: false
+    embed-resources: false
+
+filters:
+  - shinylive
+
+execute:
+  freeze: auto
+
+editor: source
