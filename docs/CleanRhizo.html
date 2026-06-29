@@ -431,8 +431,6 @@ ui &lt;- page_fluid(
     body.dark .lang-btn { background: #1E261D; color: #7A9975; border-color: #334430; }
     body.dark .lang-btn.active { background: #3A6B35; color: #fff; }
     body.dark .lang-btn:hover:not(.active) { background: #253023; color: #D8E8D5; }
-    body.dark .dark-btn { background: #1E261D; color: #7A9975; border-color: #334430; }
-    body.dark .dark-btn:hover { background: #253023; color: #D8E8D5; }
     body.dark .privacy-banner { background: #1A2D1A; border-color: #2A4A2A; }
     body.dark .privacy-title { color: #6FCF7F; }
     body.dark .privacy-body  { color: #7A9975; }
@@ -477,25 +475,12 @@ ui &lt;- page_fluid(
 
   tags$script(HTML("
     // ── Dark mode: segue automaticamente le preferenze del sistema ───────────
-    function applyDark(on) {
-      document.body.classList.toggle('dark', on);
-      var btn = document.getElementById('dark-btn');
-      if (btn) btn.textContent = on ? '☀️' : '🌙';
-    }
-
-    function toggleDark() {
-      var on = document.body.classList.toggle('dark');
-      var btn = document.getElementById('dark-btn');
-      if (btn) btn.textContent = on ? '☀️' : '🌙';
-      Shiny.setInputValue('dark_mode', on, {priority: 'event'});
-    }
-
-    // Applica al caricamento
-    var mq = window.matchMedia('(prefers-color-scheme: dark)');
-    applyDark(mq.matches);
-
-    // Aggiorna se l'utente cambia tema sul dispositivo mentre la pagina è aperta
-    mq.addEventListener('change', function(e) { applyDark(e.matches); });
+    (function() {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      function applyDark(on) { document.body.classList.toggle('dark', on); }
+      applyDark(mq.matches);
+      mq.addEventListener('change', function(e) { applyDark(e.matches); });
+    })();
 
     function setLang(lang) {
       document.querySelectorAll('.lang-btn').forEach(function(b) {
@@ -557,17 +542,6 @@ ui &lt;- page_fluid(
       ),
       div(style = "display:flex; align-items:center; gap:.8rem;",
         uiOutput("status_badge"),
-        # Dark mode toggle
-        tags$button(
-          id      = "dark-btn",
-          onclick = "toggleDark();",
-          style   = paste(
-            "padding:.32rem .7rem; cursor:pointer; background:#fff; color:#5A6B58;",
-            "border:1.5px solid #C5D4C2; border-radius:6px; font-size:.95rem;",
-            "transition:all .12s; user-select:none; line-height:1;"
-          ),
-          "🌙"
-        ),
         div(class = "lang-switcher",
           tags$button(class = "lang-btn",        `data-lang` = "it", onclick = "setLang('it')", "IT"),
           tags$button(class = "lang-btn active", `data-lang` = "en", onclick = "setLang('en')", "EN")
