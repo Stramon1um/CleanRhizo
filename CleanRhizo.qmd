@@ -4,6 +4,28 @@ engine: knitr
 format:
   html:
     page-layout: full
+    include-in-header:
+      text: |
+        <style>
+          h1.title { display: none !important; }
+          body.dark, body.dark .quarto-container, body.dark main,
+          body.dark .page-layout-full, body.dark #quarto-content {
+            background: #141A13 !important;
+            color: #D8E8D5 !important;
+          }
+          body.dark .navbar { background: #1E261D !important; }
+          body.dark .page-footer { background: #1E261D !important; }
+        </style>
+        <script>
+          (function() {
+            var mq = window.matchMedia('(prefers-color-scheme: dark)');
+            function applyDark(on) {
+              document.body.classList.toggle('dark', on);
+            }
+            applyDark(mq.matches);
+            mq.addEventListener('change', function(e) { applyDark(e.matches); });
+          })();
+        </script>
 filters:
   - shinylive
 ---
