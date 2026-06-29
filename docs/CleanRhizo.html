@@ -373,9 +373,86 @@ ui &lt;- page_fluid(
     .pivot-toggle.on .pivot-switch::after { left: 1.38rem; }
     .pivot-label { font-size: .95rem; font-weight: 600; color: #374151; }
     .pivot-sub   { font-size: .82rem; color: #5A6B58; margin-top: .15rem; }
+    /* ── dark mode ─────────────────────────────────────────────────────────── */
+    body.dark, body.dark html { background: #141A13 !important; color: #D8E8D5 !important; }
+    body.dark .wr-card { background: #1E261D; border-color: #334430; box-shadow: 0 1px 6px rgba(0,0,0,.3); }
+    body.dark .app-title { color: #E8F4E5; }
+    body.dark .app-subtitle { color: #7A9975; }
+    body.dark .section-label { color: #7A9975; }
+    body.dark .section-divider { border-color: #334430; }
+    body.dark .badge-idle  { background: #253023; color: #7A9975; }
+    body.dark .badge-ok    { background: #1A3D22; color: #6FCF7F; }
+    body.dark .badge-error { background: #3D1A1A; color: #F87171; }
+    body.dark .lang-switcher { border-color: #334430; }
+    body.dark .lang-btn { background: #1E261D; color: #7A9975; border-color: #334430; }
+    body.dark .lang-btn.active { background: #3A6B35; color: #fff; }
+    body.dark .lang-btn:hover:not(.active) { background: #253023; color: #D8E8D5; }
+    body.dark .dark-btn { background: #1E261D; color: #7A9975; border-color: #334430; }
+    body.dark .dark-btn:hover { background: #253023; color: #D8E8D5; }
+    body.dark .privacy-banner { background: #1A2D1A; border-color: #2A4A2A; }
+    body.dark .privacy-title { color: #6FCF7F; }
+    body.dark .privacy-body  { color: #7A9975; }
+    body.dark .file-chip { background: #253023; border-color: #334430; color: #6FCF7F; }
+    body.dark .col-toggle { background: #1E261D; border-color: #334430; color: #C5D8C2; }
+    body.dark .col-toggle.active { border-color: #5A9B55; background: #1E3A1A; color: #A8E0A0; }
+    body.dark .col-toggle.excluded { background: #161E15; color: #4A5E47; }
+    body.dark .toggle-meta { color: #7A9975; }
+    body.dark .link-btn { color: #6FCF7F; }
+    body.dark .link-btn:hover { color: #A8E0A0; }
+    body.dark #clean_btn { background: #3A6B35; } body.dark #clean_btn:hover { background: #4A8A44; }
+    body.dark #trt_btn   { background: #1D4ED8; } body.dark #trt_btn:hover   { background: #2563EB; }
+    body.dark .dl-wrap .btn { border-color: #5A9B55; color: #6FCF7F; }
+    body.dark .dl-wrap .btn:hover { background: #1E3A1A; }
+    body.dark .stats-strip { background: #1A2D1A; border-color: #2A4A2A; }
+    body.dark .stat-val { color: #6FCF7F; }
+    body.dark .stat-lbl { color: #7A9975; }
+    body.dark .preview-wrap { border-color: #334430; }
+    body.dark .preview-wrap thead th { background: #253023; color: #C5D8C2; border-color: #334430; }
+    body.dark .preview-wrap tbody td { color: #B8D0B5; border-color: #253023; }
+    body.dark .preview-wrap tbody tr:hover td { background: #1E2E1D; }
+    body.dark .rename-chip { background: #2D2010; border-color: #5A3E1A; color: #D4A050; }
+    body.dark .rename-chip .to { color: #6FCF7F; }
+    body.dark .trt-table thead th { background: #253023; color: #C5D8C2; border-color: #334430; }
+    body.dark .trt-table tbody td { border-color: #253023; color: #B8D0B5; }
+    body.dark .trt-table tbody tr:hover td { background: #1E2E1D; }
+    body.dark .trt-detected { color: #6FCF7F; }
+    body.dark .trt-input { background: #253023; border-color: #334430; color: #D8E8D5; }
+    body.dark .trt-input:focus { border-color: #5A9B55; }
+    body.dark .pivot-toggle { background: #1E261D; border-color: #334430; }
+    body.dark .pivot-toggle:hover, body.dark .pivot-toggle.on { border-color: #7C3AED; background: #1E1A2D; }
+    body.dark .pivot-switch { background: #334430; }
+    body.dark .pivot-label { color: #D8E8D5; }
+    body.dark .pivot-sub   { color: #7A9975; }
+    body.dark .shiny-table-output table, body.dark table { color: #B8D0B5 !important; }
+    /* input file in dark */
+    body.dark .form-control, body.dark .form-select, body.dark input[type=text] {
+      background: #253023 !important; border-color: #334430 !important; color: #D8E8D5 !important;
+    }
+    body.dark .input-group-text { background: #334430 !important; border-color: #3D5438 !important; color: #7A9975 !important; }
   "))),
 
   tags$script(HTML("
+    // ── Dark mode: segue automaticamente le preferenze del sistema ───────────
+    function applyDark(on) {
+      document.body.classList.toggle('dark', on);
+      var btn = document.getElementById('dark-btn');
+      if (btn) btn.textContent = on ? '☀️' : '🌙';
+    }
+
+    function toggleDark() {
+      var on = document.body.classList.toggle('dark');
+      var btn = document.getElementById('dark-btn');
+      if (btn) btn.textContent = on ? '☀️' : '🌙';
+      Shiny.setInputValue('dark_mode', on, {priority: 'event'});
+    }
+
+    // Applica al caricamento
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    applyDark(mq.matches);
+
+    // Aggiorna se l'utente cambia tema sul dispositivo mentre la pagina è aperta
+    mq.addEventListener('change', function(e) { applyDark(e.matches); });
+
     function setLang(lang) {
       document.querySelectorAll('.lang-btn').forEach(function(b) {
         b.classList.toggle('active', b.getAttribute('data-lang') === lang);
@@ -436,6 +513,17 @@ ui &lt;- page_fluid(
       ),
       div(style = "display:flex; align-items:center; gap:.8rem;",
         uiOutput("status_badge"),
+        # Dark mode toggle
+        tags$button(
+          id      = "dark-btn",
+          onclick = "toggleDark();",
+          style   = paste(
+            "padding:.32rem .7rem; cursor:pointer; background:#fff; color:#5A6B58;",
+            "border:1.5px solid #C5D4C2; border-radius:6px; font-size:.95rem;",
+            "transition:all .12s; user-select:none; line-height:1;"
+          ),
+          "🌙"
+        ),
         div(class = "lang-switcher",
           tags$button(class = "lang-btn",        `data-lang` = "it", onclick = "setLang('it')", "IT"),
           tags$button(class = "lang-btn active", `data-lang` = "en", onclick = "setLang('en')", "EN")
