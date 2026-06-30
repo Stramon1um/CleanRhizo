@@ -568,7 +568,7 @@ df_to_csv_string <- function(df, sep = ";") {
 
 # ── UI ───────────────────────────────────────────────────────────────────────
 ui <- page_fluid(
-  title = "CleanRhizo 🌱",
+  title = "CleanRhizo 🧹",
   theme = bs_theme(
     version       = 5,
     base_font     = "system-ui",
