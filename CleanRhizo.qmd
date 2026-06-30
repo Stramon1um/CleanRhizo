@@ -943,7 +943,7 @@ ui <- page_fluid(
   div(class = "wr-card",
     div(style = "display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:.5rem;",
       div(
-        div(class = "app-title", "CleanRhizo 🌱"),
+        div(class = "app-title", "CleanRhizo 🧹"),
         uiOutput("app_subtitle")
       ),
       div(style = "display:flex; align-items:center; gap:.8rem;",
