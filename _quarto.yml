@@ -13,10 +13,6 @@ website:
       - icon: envelope-fill
         href: mailto:mauro.maver@univr.it
     background: primary
-  page-footer:
-    right: "Created by Mauro Maver"
-    background: primary
-    foreground: primary
 
 format:
   html:
