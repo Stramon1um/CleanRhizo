@@ -187,6 +187,7 @@ COL_RENAME &lt;- c(
 TR &lt;- list(
   it = list(
     app_subtitle     = "Pulizia dati di morfologia radicale da",
+    app_descr        = "Software per l'analisi dell'architettura radicale da immagini scansionate — Regent Instruments.",
     privacy_title    = "100% locale — i tuoi dati non lasciano mai il browser",
     privacy_body     = "Questa applicazione gira interamente nel tuo browser grazie a WebR. Nessun dato viene inviato a server esterni: il file che carichi viene elaborato solo sul tuo dispositivo. Puoi usarla offline, in rete aziendale o ovunque. Al primo avvio potrebbe essere necessario qualche secondo per il caricamento dell'ambiente R.",
     guide_title    = "📋 Come nominare i campioni in WinRhizo",
@@ -265,6 +266,7 @@ TR &lt;- list(
     chart_hint       = "Media ± errore standard (SE) per ciascun trattamento. Solo a scopo di controllo qualità rapido — non sostituisce l'analisi statistica.",
     btn_chart        = "Genera grafico",
     btn_dl_png       = "Scarica PNG",
+    btn_clear        = "Cancella grafico",
     chart_no_params  = "Nessun parametro numerico disponibile nel file finale.",
     chart_ylab       = "Valore medio",
     jitter_label     = "Mostra punti individuali (jitter)",
@@ -278,6 +280,7 @@ TR &lt;- list(
   ),
   en = list(
     app_subtitle     = "Root morphology data cleaning from",
+    app_descr        = "Software for root architecture analysis from scanned images — Regent Instruments.",
     privacy_title    = "100% local — your data never leaves the browser",
     privacy_body     = "This application runs entirely in your browser using WebR. No data is sent to external servers: the file you upload is processed only on your device. You can use it offline, on a corporate network, or anywhere. On the first load, a few seconds may be needed to initialise the R environment.",
     guide_title    = "📋 How to name samples in WinRhizo",
@@ -356,6 +359,7 @@ TR &lt;- list(
     chart_hint       = "Mean ± standard error (SE) for each treatment. For quick quality control only — not a substitute for proper statistical analysis.",
     btn_chart        = "Generate chart",
     btn_dl_png       = "Download PNG",
+    btn_clear        = "Clear chart",
     chart_no_params  = "No numeric parameters available in the final file.",
     chart_ylab       = "Mean value",
     jitter_label     = "Show individual data points (jitter)",
@@ -654,6 +658,19 @@ jsonlite_like_array &lt;- function(x) {
   paste0("[", paste0('"', esc, '"', collapse = ","), "]")
 }
 
+# ── Parametri numerici disponibili per il grafico (wide o long) ──────────────
+get_available_chart_params &lt;- function(df) {
+  excl &lt;- c("SampleId", "datetime", "treatment", "replicate", "pot", "plant")
+  if ("parameter" %in% colnames(df) &amp;&amp; "value" %in% colnames(df)) {
+    sort(unique(df$parameter))
+  } else {
+    cand &lt;- setdiff(colnames(df), excl)
+    cand[vapply(cand, function(c) {
+      !all(is.na(suppressWarnings(as.numeric(df[[c]]))))
+    }, logical(1))]
+  }
+}
+
 df_to_csv_string &lt;- function(df, sep = ";") {
   con &lt;- textConnection("out", "w")
   write.table(df, con, sep = sep, row.names = FALSE, quote = FALSE, na = "")
@@ -682,12 +699,12 @@ ui &lt;- page_fluid(
     }
     h1.title { display: none !important; }
     .wr-card { background: #fff; border: 1px solid #DDE5DB; border-radius: 10px; padding: 1.8rem 2.2rem; margin-bottom: 1.4rem; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
-    .app-title    { font-size: 1.55rem; font-weight: 800; color: #1A1F1A; margin-bottom: .15rem; letter-spacing: -.4px; }
-    .app-subtitle { font-size: .92rem; color: #5A6B58; margin-bottom: 0; }
+    .app-title    { font-size: 1.75rem; font-weight: 800; color: #1A1F1A; margin-bottom: .15rem; letter-spacing: -.4px; }
+    .app-subtitle { font-size: 1.05rem; color: #5A6B58; margin-bottom: 0; }
     .badge-idle  { background: #EAF0E8; color: #4A5E47; }
     .badge-ok    { background: #D4EDDA; color: #1A5C29; }
     .badge-error { background: #FEE2E2; color: #991B1B; }
-    .status-badge { display: inline-block; font-size: .82rem; font-weight: 600; padding: .28em .85em; border-radius: 999px; }
+    .status-badge { display: inline-block; font-size: .92rem; font-weight: 600; padding: .28em .85em; border-radius: 999px; }
     .lang-switcher { display: inline-flex; align-items: center; border: 1.5px solid #C5D4C2; border-radius: 6px; overflow: hidden; font-size: .82rem; font-weight: 700; }
     .lang-btn { padding: .32rem .75rem; cursor: pointer; background: #fff; color: #5A6B58; border: none; border-right: 1px solid #C5D4C2; transition: all .12s; user-select: none; }
     /* scheme selector */
@@ -748,16 +765,16 @@ ui &lt;- page_fluid(
     .guide-case-ex-bad {
       color: #9F1239; background: #FFF1F2; border-color: #FECDD3;
     }
-    .section-label { font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #5A6B58; margin-bottom: .75rem; }
+    .section-label { font-size: .88rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #5A6B58; margin-bottom: .75rem; }
     .file-chip { display: inline-block; font-size: .78rem; background: #EAF0E8; border: 1px solid #C5D4C2; border-radius: 4px; padding: .2rem .6rem; color: #3A6B35; font-weight: 600; margin-top: .5rem; }
     .col-grid { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: .9rem; }
-    .col-toggle { display: inline-flex; align-items: center; gap: .35rem; padding: .35rem .8rem; border-radius: 999px; border: 1.5px solid #C5D4C2; background: #fff; font-size: .82rem; font-weight: 500; color: #374151; cursor: pointer; transition: all .12s; user-select: none; }
+    .col-toggle { display: inline-flex; align-items: center; gap: .35rem; padding: .42rem .9rem; border-radius: 999px; border: 1.5px solid #C5D4C2; background: #fff; font-size: .92rem; font-weight: 500; color: #374151; cursor: pointer; transition: all .12s; user-select: none; }
     .col-toggle.active  { border-color: #3A6B35; background: #EAF0E8; color: #1A3D17; }
-    .col-toggle.active::before { content: '✓'; font-size: .72rem; color: #3A6B35; font-weight: 700; }
+    .col-toggle.active::before { content: '✓'; font-size: .82rem; color: #3A6B35; font-weight: 700; }
     .col-toggle.excluded { border-color: #DDE5DB; background: #F9FAF9; color: #9CA3AF; text-decoration: line-through; }
     .toggle-meta { font-size: .8rem; color: #5A6B58; margin-top: .35rem; margin-bottom: 0; }
     .toggle-actions { display: flex; gap: .7rem; margin-bottom: .8rem; }
-    .link-btn { background: none; border: none; padding: 0; font-size: .8rem; color: #3A6B35; font-weight: 600; cursor: pointer; text-decoration: underline; }
+    .link-btn { background: none; border: none; padding: 0; font-size: .92rem; color: #3A6B35; font-weight: 600; cursor: pointer; text-decoration: underline; }
     .link-btn:hover { color: #2A5027; }
     .shiny-input-container { width: 100% !important; }
     .form-group { margin-bottom: 0; }
@@ -767,15 +784,15 @@ ui &lt;- page_fluid(
     }
     #clean_btn { background: #3A6B35; } #clean_btn:hover { background: #2A5027; }
     #trt_btn   { background: #1D4ED8; } #trt_btn:hover   { background: #1E40AF; }
-    .dl-wrap .btn { border: 1.5px solid #3A6B35; color: #3A6B35; background: transparent; font-weight: 600; font-size: .95rem; padding: .58rem 1.6rem; border-radius: 6px; transition: all .15s; }
+    .dl-wrap .btn { border: 1.5px solid #3A6B35; color: #3A6B35; background: transparent; font-weight: 600; font-size: 1.05rem; padding: .58rem 1.6rem; border-radius: 6px; transition: all .15s; }
     .dl-wrap .btn:hover { background: #EAF0E8; }
     .stats-strip { display: flex; flex-wrap: wrap; gap: 2rem; padding: .9rem 1.3rem; background: #EAF4E8; border-radius: 6px; border: 1px solid #B8DABB; margin-bottom: 1.3rem; }
     .stat-item { display: flex; flex-direction: column; }
-    .stat-val  { font-size: 1.35rem; font-weight: 800; color: #3A6B35; line-height: 1; }
-    .stat-lbl  { font-size: .72rem; color: #5A6B58; margin-top: .2rem; }
+    .stat-val  { font-size: 1.5rem; font-weight: 800; color: #3A6B35; line-height: 1; }
+    .stat-lbl  { font-size: .85rem; color: #5A6B58; margin-top: .2rem; }
     .preview-wrap { overflow-x: auto; overflow-y: auto; max-height: 340px; border-radius: 6px; border: 1px solid #DDE5DB; }
     .preview-wrap thead th { background: #EAF0E8; font-weight: 700; color: #1A3D17; border-bottom: 2px solid #C5D4C2; padding: .5rem .75rem; position: sticky; top: 0; z-index: 1; }
-    .preview-wrap table { font-size: .84rem !important; margin-bottom: 0; white-space: nowrap; }
+    .preview-wrap table { font-size: .95rem !important; margin-bottom: 0; white-space: nowrap; }
     .preview-wrap tbody td { padding: .4rem .75rem; color: #374151; border-bottom: 1px solid #F0F4EF; }
     .preview-wrap tbody tr:last-child td { border-bottom: none; }
     .rename-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .5rem; }
@@ -799,18 +816,18 @@ ui &lt;- page_fluid(
     .pivot-toggle.on .pivot-switch { background: #7C3AED; }
     .pivot-switch::after { content: ''; position: absolute; top: .18rem; left: .18rem; width: 1.04rem; height: 1.04rem; border-radius: 50%; background: #fff; transition: left .15s; }
     .pivot-toggle.on .pivot-switch::after { left: 1.38rem; }
-    .pivot-label { font-size: .95rem; font-weight: 600; color: #374151; }
-    .pivot-sub   { font-size: .82rem; color: #5A6B58; margin-top: .15rem; }
+    .pivot-label { font-size: 1rem; font-weight: 600; color: #374151; }
+    .pivot-sub   { font-size: .88rem; color: #5A6B58; margin-top: .15rem; }
     /* chart panel */
     .chart-param-grid { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
     .chart-param-toggle {
-      display: inline-flex; align-items: center; gap: .4rem; padding: .4rem .9rem;
+      display: inline-flex; align-items: center; gap: .4rem; padding: .42rem .9rem;
       border-radius: 999px; border: 1.5px solid #C5D4C2; background: #fff;
-      font-size: .85rem; font-weight: 500; color: #374151;
+      font-size: .92rem; font-weight: 500; color: #374151;
       cursor: pointer; transition: all .12s; user-select: none;
     }
     .chart-param-toggle.active { border-color: #0E7490; background: #E0F4F8; color: #0C4A5C; }
-    .chart-param-toggle.active::before { content: '✓'; font-size: .76rem; color: #0E7490; font-weight: 700; }
+    .chart-param-toggle.active::before { content: '✓'; font-size: .82rem; color: #0E7490; font-weight: 700; }
     .chart-param-toggle.excluded { border-color: #DDE5DB; background: #F9FAF9; color: #9CA3AF; }
     #chart_btn {
       border: none; color: #fff; font-weight: 700; font-size: .95rem;
@@ -1062,7 +1079,7 @@ ui &lt;- page_fluid(
   uiOutput("chart_panel"),
 
   hr(class = "section-divider"),
-  div(style = "text-align:center; font-size:.82rem; color:#5A6B58; padding:.4rem 0 1.2rem;",
+  div(style = "text-align:center; font-size:.9rem; color:#5A6B58; padding:.4rem 0 1.2rem;",
     uiOutput("app_credits")
   )
 )
@@ -1079,7 +1096,16 @@ server &lt;- function(input, output, session) {
   t    &lt;- reactive({ TR[[lang()]] })
 
   output$app_subtitle &lt;- renderUI({
-    p(class = "app-subtitle", t()$app_subtitle, " ", tags$strong("WinRhizo"), ".")
+    tx &lt;- t()
+    tagList(
+      p(class = "app-subtitle", tx$app_subtitle, " ",
+        tags$a(href = "https://www.regentinstruments.com/assets/winrhizo_mostrecent.html",
+               target = "_blank",
+               style = "color:#3A6B35;font-weight:700;text-decoration:underline;",
+               "WinRhizo — Regent Instruments.")),
+      p(class = "app-subtitle", style = "font-size:.88rem;color:#9CA3AF;margin-top:.1rem;",
+        tx$app_descr)
+    )
   })
 
   output$privacy_banner &lt;- renderUI({
@@ -1124,6 +1150,8 @@ server &lt;- function(input, output, session) {
       cr$pre,
       tags$a(href = "https://www.mauromaver.eu", target = "_blank",
              style = "color:#3A6B35; font-weight:700; text-decoration:underline;", "Mauro Maver"),
+      " · ",
+      tags$span(style = "color:#9CA3AF; font-size:.88rem;", "v.1.0"),
       cr$bug,
       tags$a(href = "https://github.com/Stramon1um", target = "_blank",
              style = "color:#3A6B35; font-weight:600; text-decoration:underline;", "GitHub"),
@@ -1240,7 +1268,7 @@ server &lt;- function(input, output, session) {
       div(class = "wr-card",
         p(class = "section-label", tx$summary),
         if (length(chips)) tagList(
-          p(style = "font-size:.8rem; color:#5A6B58; margin-bottom:.4rem;", tx$renamed_lbl),
+          p(style = "font-size:.88rem; color:#5A6B58; margin-bottom:.4rem;", tx$renamed_lbl),
           div(class = "rename-chips", chips),
           hr(class = "section-divider")
         ),
@@ -1303,8 +1331,8 @@ server &lt;- function(input, output, session) {
       }
 
       manual_panel &lt;- div(
-        p(style = "font-size:.82rem; color:#5A6B58; margin-bottom:.4rem; font-weight:600;", tx$trt_manual_lbl),
-        p(style = "font-size:.78rem; color:#9CA3AF; margin-bottom:.8rem;", tx$trt_manual_hint),
+        p(style = "font-size:.9rem; color:#5A6B58; margin-bottom:.4rem; font-weight:600;", tx$trt_manual_lbl),
+        p(style = "font-size:.86rem; color:#9CA3AF; margin-bottom:.8rem;", tx$trt_manual_hint),
         div(class = "segment-row", seg_blocks)
       )
 
@@ -1382,7 +1410,7 @@ server &lt;- function(input, output, session) {
       p(class = "section-label", tx$step4),
       p(style = "font-size:.86rem; color:#5A6B58; margin-bottom:1rem;", tx$trt_hint),
 
-      p(style = "font-size:.82rem; color:#5A6B58; margin-bottom:.5rem; font-weight:600;", tx$trt_scheme_lbl),
+      p(style = "font-size:.9rem; color:#5A6B58; margin-bottom:.5rem; font-weight:600;", tx$trt_scheme_lbl),
       div(class = "scheme-grid",
         div(class = paste("scheme-card", if (n_levels == 1) "active" else ""),
             onclick = "setScheme(this, 1);",
@@ -1562,20 +1590,11 @@ server &lt;- function(input, output, session) {
     if (!"treatment" %in% colnames(rv$df_final)) return(NULL)
 
     # parametri = colonne numeriche, escluse id/treatment/replicate/parameter/value
-    excl &lt;- c("SampleId", "datetime", "treatment", "replicate", "pot", "plant")
-    if ("parameter" %in% colnames(rv$df_final) &amp;&amp; "value" %in% colnames(rv$df_final)) {
-      # formato long: i parametri sono i valori unici della colonna 'parameter'
-      avail_params &lt;- sort(unique(rv$df_final$parameter))
-    } else {
-      cand &lt;- setdiff(colnames(rv$df_final), excl)
-      avail_params &lt;- cand[vapply(cand, function(c) {
-        !all(is.na(suppressWarnings(as.numeric(rv$df_final[[c]]))))
-      }, logical(1))]
-    }
+    avail_params &lt;- get_available_chart_params(rv$df_final)
 
     if (!length(avail_params)) {
       return(div(class = "wr-card", p(class = "section-label", tx$step6),
-                  p(style = "font-size:.85rem; color:#9CA3AF;", tx$chart_no_params)))
+                  p(style = "font-size:.92rem; color:#9CA3AF;", tx$chart_no_params)))
     }
 
     pills &lt;- lapply(avail_params, function(p) {
@@ -1583,19 +1602,11 @@ server &lt;- function(input, output, session) {
                 onclick = "toggleChartParam(this);", p)
     })
 
-    init_js &lt;- tags$script(HTML(sprintf("
-      (function() {
-        var sel = %s;
-        Shiny.setInputValue('chart_params', sel, {priority: 'event'});
-      })();
-    ", jsonlite_like_array(avail_params))))
-
     div(class = "wr-card",
       p(class = "section-label", tx$step6),
       p(class = "chart-hint", tx$chart_hint),
-      p(style = "font-size:.82rem; color:#5A6B58; margin-bottom:.5rem; font-weight:600;", tx$chart_param_lbl),
+      p(style = "font-size:.9rem; color:#5A6B58; margin-bottom:.5rem; font-weight:600;", tx$chart_param_lbl),
       div(class = "chart-param-grid", pills),
-      init_js,
       div(id = "jitter-toggle", class = "pivot-toggle", onclick = "toggleJitter();",
         div(class = "pivot-switch"),
         div(
@@ -1605,7 +1616,8 @@ server &lt;- function(input, output, session) {
       ),
       div(style = "display:flex; gap:.8rem; align-items:center; flex-wrap:wrap;",
         actionButton("chart_btn", tx$btn_chart, icon = icon("chart-column")),
-        uiOutput("dl_png_ui")
+        uiOutput("dl_png_ui"),
+        uiOutput("clear_chart_ui")
       ),
       uiOutput("chart_render_wrap")
     )
@@ -1616,7 +1628,10 @@ server &lt;- function(input, output, session) {
     rv$chart_png_b64 &lt;- NULL
 
     sel_params &lt;- input$chart_params
-    if (is.null(sel_params) || !length(sel_params)) return(NULL)
+    if (is.null(sel_params) || !length(sel_params)) {
+      sel_params &lt;- get_available_chart_params(rv$df_final)
+    }
+    if (!length(sel_params)) return(NULL)
 
     is_long &lt;- "parameter" %in% colnames(rv$df_final) &amp;&amp; "value" %in% colnames(rv$df_final)
 
@@ -1666,6 +1681,14 @@ server &lt;- function(input, output, session) {
       data     = rv$chart_png_b64
     ))
   })
+
+  output$clear_chart_ui &lt;- renderUI({
+    req(rv$chart_png_b64)
+    tags$button(class = "link-btn", style = "color:#9CA3AF;",
+      onclick = "Shiny.setInputValue('clear_chart', Math.random(), {priority:'event'});",
+      icon("xmark"), " ", t()$btn_clear)
+  })
+  observeEvent(input$clear_chart, { rv$chart_png_b64 &lt;- NULL })
 
   # ── Badge stato ───────────────────────────────────────────────────────────
   output$status_badge &lt;- renderUI({
