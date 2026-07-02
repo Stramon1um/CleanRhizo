@@ -370,6 +370,192 @@ TR &lt;- list(
       or   = " or via ",
       mail = "email"
     )
+  ),
+  es = list(
+    app_subtitle     = "Limpieza de datos de morfología radicular desde",
+    app_descr        = "Software para el análisis de la arquitectura radicular a partir de imágenes escaneadas — Regent Instruments.",
+    privacy_title    = "100% local — sus datos nunca salen del navegador",
+    privacy_body     = "Esta aplicación se ejecuta completamente en su navegador gracias a WebR. No se envían datos a servidores externos: el archivo que cargue se procesa únicamente en su dispositivo. Puede usarla sin conexión, en una red corporativa o en cualquier lugar. En el primer inicio puede ser necesario esperar unos segundos para cargar el entorno R.",
+    guide_title    = "📋 Cómo nombrar las muestras en WinRhizo",
+    guide_intro    = "Para evitar ambigüedades en el momento del análisis, conviene definir una convención de nombres antes de iniciar el escaneo. La app reconoce automáticamente dos esquemas:",
+    guide_case1_title = "Caso simple — una sola réplica por muestra",
+    guide_case1_body  = "Usa el formato TRATAMIENTO_réplica, con un guión bajo antes del número secuencial.",
+    guide_case1_ex1   = "TRATAMIENTO_1, TRATAMIENTO_2, TRATAMIENTO_3 …",
+    guide_case2_title = "Caso con dos niveles — réplica biológica y técnica",
+    guide_case2_body  = "Si cada maceta contiene varias plantas (o varios submuestras), conviene distinguir entre la réplica biológica (la maceta, es decir, un individuo o grupo independiente) y la réplica técnica (la planta individual o medida repetida dentro de la misma maceta). Usa TRATAMIENTO.maceta.planta, con un punto antes de los dos números:",
+    guide_case2_ex1   = "TRATAMIENTO.1.1, TRATAMIENTO.1.2 → maceta 1, plantas 1 y 2",
+    guide_case2_ex2   = "TRATAMIENTO.2.1, TRATAMIENTO.2.2 → maceta 2, plantas 1 y 2",
+    guide_why_title   = "¿Por qué un punto y no un guión bajo para maceta/planta?",
+    guide_why_body    = "Cuando el nombre del tratamiento está formado por varias palabras unidas con guiones bajos (p.ej. 100_PPM_UREA), la app no puede saber a simple vista dónde termina el nombre y dónde empiezan los números de maceta y planta: todos los guiones bajos son iguales. Usando el punto solo para introducir los números de réplica, el límite entre nombre y números siempre es reconocible.",
+    guide_why_ex1     = "100_PPM_UREA_1_2 → ambiguo: el último '_1' podría ser parte del nombre o la maceta",
+    guide_why_ex2     = "100_PPM_UREA.1.2 → claro: tratamiento 100_PPM_UREA, maceta 1, planta 2",
+    guide_collapse    = "Contraer guía",
+    guide_expand      = "Mostrar guía",
+    status_waiting   = "Esperando",
+    status_loaded    = "✓ Archivo cargado",
+    status_clean     = "✓ Archivo limpio",
+    status_trt       = "✓ Tratamientos añadidos",
+    status_final     = "✓ Archivo final listo",
+    status_error     = "✗ Error",
+    step1            = "1 — Cargar archivo",
+    file_placeholder = "Selecciona un archivo .txt exportado de WinRhizo…",
+    file_btn         = "Examinar",
+    file_info        = function(nr, nc) paste0(nr, " muestras · ", nc, " columnas detectadas"),
+    step2            = "2 — Seleccionar columnas a conservar",
+    sel_all          = "Seleccionar todo",
+    desel_all        = "Deseleccionar todo",
+    col_meta         = "columnas seleccionadas",
+    step3            = "3 — Generar archivo limpio",
+    btn_clean        = "Limpiar",
+    btn_dl_clean     = "Descargar CSV limpio",
+    summary          = "Resumen",
+    renamed_lbl      = "Columnas renombradas automáticamente:",
+    stat_samples     = "muestras",
+    stat_cols        = "columnas",
+    stat_file        = "nombre archivo",
+    preview8         = "Vista previa de datos",
+    step4            = "4 — Asignar tratamientos a las muestras",
+    trt_hint         = "WinRhizo codifica el tratamiento en el nombre de la muestra. Elige el esquema que corresponda a tu diseño experimental y revisa o modifica el tratamiento personalizado para cada muestra.",
+    trt_scheme_lbl   = "Esquema del nombre de muestra:",
+    trt_scheme_1     = "Tratamiento_Réplica",
+    trt_scheme_1_sub = "p.ej. XYZ_3 → tratamiento XYZ, réplica 3",
+    trt_scheme_2     = "Tratamiento_Maceta_Planta",
+    trt_scheme_2_sub = "p.ej. X_Y_Z.1.2 → tratamiento X_Y_Z, maceta 1, planta 2",
+    trt_scheme_3     = "Manual",
+    trt_scheme_3_sub = "asigna tú mismo el rol de cada parte del nombre",
+    trt_manual_lbl   = "Asigna un rol a cada parte del SampleId:",
+    trt_manual_hint  = "Basado en la primera muestra del archivo. Reconoce guión bajo, punto y espacio como separadores. Los segmentos consecutivos con el mismo rol 'Tratamiento' se fusionan automáticamente.",
+    trt_manual_role_treatment = "Tratamiento",
+    trt_manual_role_pot       = "Maceta",
+    trt_manual_role_plant     = "Planta",
+    trt_manual_role_ignore    = "Ignorar",
+    trt_manual_mismatch = "Aviso: algunos SampleIds tienen una estructura diferente a la muestra de referencia y no se han interpretado correctamente (se muestra el nombre original como tratamiento).",
+    trt_col_sample   = "SampleId",
+    trt_col_detected = "Tratamiento detectado",
+    trt_col_replica  = "Réplica",
+    trt_col_vaso     = "Maceta (rep. biológica)",
+    trt_col_pianta   = "Planta (rep. técnica)",
+    trt_col_custom   = "Tratamiento personalizado",
+    btn_trt          = "Añadir columnas de tratamiento y réplica",
+    trt_preview      = "Vista previa con tratamientos",
+    btn_dl_trt       = "Descargar CSV con tratamientos",
+    step5            = "5 — Formato final y descarga",
+    pivot_label      = "Transponer parámetros a formato largo",
+    pivot_sub        = "Las columnas numéricas se unirán en una columna 'parameter' con los valores en 'value'",
+    btn_final        = "Generar archivo final",
+    btn_dl_final     = "Descargar CSV final",
+    stat_rows        = "filas",
+    stat_format      = "formato",
+    final_preview    = "Vista previa del archivo final",
+    step6            = "6 — Gráfico exploratorio",
+    chart_param_lbl  = "Seleccionar parámetros a visualizar:",
+    chart_hint       = "Media ± error estándar (SE) por tratamiento. Solo para control de calidad rápido — no sustituye al análisis estadístico.",
+    btn_chart        = "Generar gráfico",
+    btn_dl_png       = "Descargar PNG",
+    btn_clear        = "Borrar gráfico",
+    chart_no_params  = "No hay parámetros numéricos disponibles en el archivo final.",
+    chart_ylab       = "Valor medio",
+    jitter_label     = "Mostrar puntos individuales (jitter)",
+    jitter_sub       = "Superponer cada medición como un punto, útil para detectar valores atípicos",
+    credits          = list(
+      pre  = "Aplicación desarrollada por ",
+      bug  = " · Reportar problemas en ",
+      or   = " o por ",
+      mail = "correo"
+    )
+  ),
+  fr = list(
+    app_subtitle     = "Nettoyage des données de morphologie racinaire depuis",
+    app_descr        = "Logiciel d'analyse de l'architecture racinaire à partir d'images numérisées — Regent Instruments.",
+    privacy_title    = "100 % local — vos données ne quittent jamais le navigateur",
+    privacy_body     = "Cette application s'exécute entièrement dans votre navigateur grâce à WebR. Aucune donnée n'est envoyée à des serveurs externes : le fichier que vous chargez est traité uniquement sur votre appareil. Vous pouvez l'utiliser hors ligne, sur un réseau d'entreprise ou n'importe où. Au premier démarrage, quelques secondes peuvent être nécessaires pour initialiser l'environnement R.",
+    guide_title    = "📋 Comment nommer les échantillons dans WinRhizo",
+    guide_intro    = "Pour éviter toute ambiguïté lors de l'analyse, il est utile de définir une convention de nommage avant de commencer le balayage. L'application reconnaît automatiquement deux schémas :",
+    guide_case1_title = "Cas simple — une seule réplique par échantillon",
+    guide_case1_body  = "Utilisez le format TRAITEMENT_réplique, avec un underscore avant le numéro séquentiel.",
+    guide_case1_ex1   = "TRAITEMENT_1, TRAITEMENT_2, TRAITEMENT_3 …",
+    guide_case2_title = "Cas à deux niveaux — réplique biologique et technique",
+    guide_case2_body  = "Si chaque pot contient plusieurs plantes (ou plusieurs sous-échantillons), il convient de distinguer la réplique biologique (le pot, c'est-à-dire un individu ou groupe indépendant) de la réplique technique (la plante individuelle ou mesure répétée dans le même pot). Utilisez TRAITEMENT.pot.plante, avec un point avant les deux chiffres :",
+    guide_case2_ex1   = "TRAITEMENT.1.1, TRAITEMENT.1.2 → pot 1, plantes 1 et 2",
+    guide_case2_ex2   = "TRAITEMENT.2.1, TRAITEMENT.2.2 → pot 2, plantes 1 et 2",
+    guide_why_title   = "Pourquoi un point plutôt qu'un underscore pour pot/plante ?",
+    guide_why_body    = "Lorsque le nom du traitement est composé de plusieurs mots reliés par des underscores (ex. 100_PPM_UREA), l'application ne peut pas savoir d'emblée où le nom se termine et où commencent les numéros de pot et de plante : tous les underscores se ressemblent. En utilisant le point uniquement pour introduire les numéros de réplique, la frontière entre nom et chiffres reste reconnaissable.",
+    guide_why_ex1     = "100_PPM_UREA_1_2 → ambigu : le dernier '_1' pourrait faire partie du nom ou être le pot",
+    guide_why_ex2     = "100_PPM_UREA.1.2 → clair : traitement 100_PPM_UREA, pot 1, plante 2",
+    guide_collapse    = "Réduire le guide",
+    guide_expand      = "Afficher le guide",
+    status_waiting   = "En attente",
+    status_loaded    = "✓ Fichier chargé",
+    status_clean     = "✓ Fichier nettoyé",
+    status_trt       = "✓ Traitements ajoutés",
+    status_final     = "✓ Fichier final prêt",
+    status_error     = "✗ Erreur",
+    step1            = "1 — Charger le fichier",
+    file_placeholder = "Sélectionnez un fichier .txt exporté de WinRhizo…",
+    file_btn         = "Parcourir",
+    file_info        = function(nr, nc) paste0(nr, " échantillons · ", nc, " colonnes détectées"),
+    step2            = "2 — Sélectionner les colonnes à conserver",
+    sel_all          = "Tout sélectionner",
+    desel_all        = "Tout désélectionner",
+    col_meta         = "colonnes sélectionnées",
+    step3            = "3 — Générer le fichier nettoyé",
+    btn_clean        = "Nettoyer",
+    btn_dl_clean     = "Télécharger le CSV nettoyé",
+    summary          = "Récapitulatif",
+    renamed_lbl      = "Colonnes renommées automatiquement :",
+    stat_samples     = "échantillons",
+    stat_cols        = "colonnes",
+    stat_file        = "nom du fichier",
+    preview8         = "Aperçu des données",
+    step4            = "4 — Assigner les traitements aux échantillons",
+    trt_hint         = "WinRhizo encode le traitement dans le nom de l'échantillon. Choisissez le schéma correspondant à votre dispositif expérimental, puis vérifiez ou modifiez le traitement personnalisé pour chaque échantillon.",
+    trt_scheme_lbl   = "Schéma du nom d'échantillon :",
+    trt_scheme_1     = "Traitement_Réplique",
+    trt_scheme_1_sub = "ex. XYZ_3 → traitement XYZ, réplique 3",
+    trt_scheme_2     = "Traitement_Pot_Plante",
+    trt_scheme_2_sub = "ex. X_Y_Z.1.2 → traitement X_Y_Z, pot 1, plante 2",
+    trt_scheme_3     = "Manuel",
+    trt_scheme_3_sub = "assignez vous-même le rôle de chaque partie du nom",
+    trt_manual_lbl   = "Assignez un rôle à chaque partie du SampleId :",
+    trt_manual_hint  = "Basé sur le premier échantillon du fichier. Reconnaît l'underscore, le point et l'espace comme séparateurs. Les segments consécutifs avec le même rôle 'Traitement' sont fusionnés automatiquement.",
+    trt_manual_role_treatment = "Traitement",
+    trt_manual_role_pot       = "Pot",
+    trt_manual_role_plant     = "Plante",
+    trt_manual_role_ignore    = "Ignorer",
+    trt_manual_mismatch = "Avertissement : certains SampleIds ont une structure différente de l'échantillon de référence et n'ont pas été interprétés correctement (le nom original est affiché comme traitement).",
+    trt_col_sample   = "SampleId",
+    trt_col_detected = "Traitement détecté",
+    trt_col_replica  = "Réplique",
+    trt_col_vaso     = "Pot (rép. biologique)",
+    trt_col_pianta   = "Plante (rép. technique)",
+    trt_col_custom   = "Traitement personnalisé",
+    btn_trt          = "Ajouter les colonnes traitement et réplique",
+    trt_preview      = "Aperçu avec traitements",
+    btn_dl_trt       = "Télécharger le CSV avec traitements",
+    step5            = "5 — Format final et téléchargement",
+    pivot_label      = "Transposer les paramètres en format long",
+    pivot_sub        = "Les colonnes numériques seront fusionnées dans une colonne 'parameter' avec les valeurs dans 'value'",
+    btn_final        = "Générer le fichier final",
+    btn_dl_final     = "Télécharger le CSV final",
+    stat_rows        = "lignes",
+    stat_format      = "format",
+    final_preview    = "Aperçu du fichier final",
+    step6            = "6 — Graphique exploratoire",
+    chart_param_lbl  = "Sélectionner les paramètres à afficher :",
+    chart_hint       = "Moyenne ± erreur standard (SE) par traitement. À des fins de contrôle qualité uniquement — ne remplace pas une analyse statistique.",
+    btn_chart        = "Générer le graphique",
+    btn_dl_png       = "Télécharger PNG",
+    btn_clear        = "Effacer le graphique",
+    chart_no_params  = "Aucun paramètre numérique disponible dans le fichier final.",
+    chart_ylab       = "Valeur moyenne",
+    jitter_label     = "Afficher les points individuels (jitter)",
+    jitter_sub       = "Superposer chaque mesure sous forme de point, utile pour repérer les valeurs aberrantes",
+    credits          = list(
+      pre  = "Application développée par ",
+      bug  = " · Signaler des problèmes sur ",
+      or   = " ou via ",
+      mail = "e-mail"
+    )
   )
 )
 
@@ -704,7 +890,8 @@ ui &lt;- page_fluid(
     .badge-idle  { background: #EAF0E8; color: #4A5E47; }
     .badge-ok    { background: #D4EDDA; color: #1A5C29; }
     .badge-error { background: #FEE2E2; color: #991B1B; }
-    .status-badge { display: inline-block; font-size: .92rem; font-weight: 600; padding: .28em .85em; border-radius: 999px; }
+    .status-badge { display: inline-block; font-size: .92rem; font-weight: 600; padding: .28em .85em; border-radius: 999px; min-width: 7rem; text-align: center; white-space: nowrap; }
+    .shiny-html-output:has(.status-badge) { display: inline-block; flex-shrink: 0; }
     .lang-switcher { display: inline-flex; align-items: center; border: 1.5px solid #C5D4C2; border-radius: 6px; overflow: hidden; font-size: .82rem; font-weight: 700; }
     .lang-btn { padding: .32rem .75rem; cursor: pointer; background: #fff; color: #5A6B58; border: none; border-right: 1px solid #C5D4C2; transition: all .12s; user-select: none; }
     /* scheme selector */
@@ -982,6 +1169,13 @@ ui &lt;- page_fluid(
       Shiny.setInputValue('manual_roles', roles, {priority: 'event'});
     }
 
+    Shiny.addCustomMessageHandler('updateBadge', function(msg) {
+      var el = document.getElementById('status_badge_el');
+      if (!el) return;
+      el.textContent = msg.text;
+      el.className = 'status-badge ' + msg.cls;
+    });
+
     Shiny.addCustomMessageHandler('downloadCSV', function(msg) {
       var blob = new Blob([msg.content], {type: 'text/csv;charset=utf-8;'});
       var link = document.createElement('a');
@@ -1053,19 +1247,19 @@ ui &lt;- page_fluid(
 
   # ── Header ────────────────────────────────────────────────────────────────
   div(class = "wr-card",
-    div(style = "display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:.5rem;",
-      div(
-        div(class = "app-title", "CleanRhizo 🧹"),
-        uiOutput("app_subtitle")
-      ),
-      div(style = "display:flex; align-items:center; gap:.8rem;",
-        uiOutput("status_badge"),
-        div(class = "lang-switcher",
+    div(style = "display:flex; align-items:center; justify-content:space-between; flex-wrap:nowrap; gap:.5rem;",
+      div(class = "app-title", "CleanRhizo 🧹"),
+      div(style = "display:flex; align-items:center; gap:.8rem; flex-wrap:nowrap; flex-shrink:0;",
+        tags$span(id = "status_badge_el", class = "status-badge badge-idle", ""),
+        div(style = "flex-shrink:0;", class = "lang-switcher",
+          tags$button(class = "lang-btn active", `data-lang` = "en", onclick = "setLang('en')", "EN"),
           tags$button(class = "lang-btn",        `data-lang` = "it", onclick = "setLang('it')", "IT"),
-          tags$button(class = "lang-btn active", `data-lang` = "en", onclick = "setLang('en')", "EN")
+          tags$button(class = "lang-btn",        `data-lang` = "es", onclick = "setLang('es')", "ES"),
+          tags$button(class = "lang-btn",        `data-lang` = "fr", onclick = "setLang('fr')", "FR")
         )
       )
-    )
+    ),
+    uiOutput("app_subtitle")
   ),
 
   uiOutput("privacy_banner"),
@@ -1691,14 +1885,21 @@ server &lt;- function(input, output, session) {
   observeEvent(input$clear_chart, { rv$chart_png_b64 &lt;- NULL })
 
   # ── Badge stato ───────────────────────────────────────────────────────────
-  output$status_badge &lt;- renderUI({
-    tx &lt;- t()
-    if (!is.null(rv$error))         div(class="status-badge badge-error", tx$status_error)
-    else if (!is.null(rv$df_final)) div(class="status-badge badge-ok",   tx$status_final)
-    else if (!is.null(rv$df_trt))   div(class="status-badge badge-ok",   tx$status_trt)
-    else if (!is.null(rv$df_clean)) div(class="status-badge badge-ok",   tx$status_clean)
-    else if (!is.null(rv$df_raw))   div(class="status-badge badge-ok",   tx$status_loaded)
-    else                             div(class="status-badge badge-idle", tx$status_waiting)
+  observe({
+    tx  &lt;- t()
+    cls &lt;- if (!is.null(rv$error))         "badge-error"
+           else if (!is.null(rv$df_final) ||
+                    !is.null(rv$df_trt)   ||
+                    !is.null(rv$df_clean) ||
+                    !is.null(rv$df_raw))   "badge-ok"
+           else                             "badge-idle"
+    txt &lt;- if (!is.null(rv$error))         tx$status_error
+           else if (!is.null(rv$df_final)) tx$status_final
+           else if (!is.null(rv$df_trt))   tx$status_trt
+           else if (!is.null(rv$df_clean)) tx$status_clean
+           else if (!is.null(rv$df_raw))   tx$status_loaded
+           else                             tx$status_waiting
+    session$sendCustomMessage("updateBadge", list(text = txt, cls = cls))
   })
 }
 
