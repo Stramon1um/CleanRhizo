@@ -77,7 +77,7 @@ suppressPackageStartupMessages(library(bslib))
 # ── Colonne di default da mantenere ──────────────────────────────────────────
 DEFAULT_KEEP <- c(
   "SampleId", "Analysis Date Time",
-  "Length(cm)", "ProjArea(cm2)", "SurfArea(cm2)",
+  "Length(cm)", "SurfArea(cm2)",
   "AvgDiam(mm)", "RootVolume(cm3)",
   "Tips", "Forks", "Crossings"
 )
