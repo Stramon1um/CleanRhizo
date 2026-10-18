@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.1 (in preparation)
+## v1.1 (2026-10-18)
 
 ### Statistics
 - **Exploratory chart: no more pseudoreplication.** With the Pot/Plant scheme (including the manual scheme) plants from the same pot are first averaged per pot; mean, SE and jitter points are computed across pots (biological replicates). In v1.0 the SE treated plants as replicates and was therefore underestimated.
@@ -25,6 +25,8 @@
 
 ### Repository
 - `CITATION.cff` added: GitHub shows a "Cite this repository" button and Zenodo reads the citation metadata from it.
+- Removed the obsolete `App.R` prototype (superseded by `CleanRhizo.qmd`) and a stale Quarto freeze cache.
+- `_quarto.yml` renders only `CleanRhizo.qmd`, so `README.md` and `CHANGELOG.md` are not published as site pages.
 
 ## v1.0 (2026-08-11)
 - First public release. DOI: [10.5281/zenodo.21894027](https://doi.org/10.5281/zenodo.21894027)
