@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use CleanRhizo in your research, please cite it as below."
+type: software
+title: "CleanRhizo: a browser-based tool for WinRhizo root morphology data cleaning and exploration"
+abstract: "CleanRhizo is a free, browser-based application for cleaning, organizing and exploring root morphology data exported from WinRhizo (Regent Instruments). It runs entirely in the browser via WebR and shinylive: it selects columns, removes sub-header rows, decodes treatments and replicates from sample identifiers, and produces tidy datasets in wide or long format with exploratory bar charts."
+authors:
+  - family-names: Maver
+    given-names: Mauro
+    affiliation: University of Verona
+    orcid: "https://orcid.org/0000-0002-8162-3618"
+version: 1.1.0
+date-released: 2026-10-18
+doi: 10.5281/zenodo.21894026
+license: MIT
+repository-code: "https://github.com/Stramon1um/CleanRhizo"
+url: "https://www.mauromaver.eu/CleanRhizo/"
+keywords:
+  - root morphology
+  - plant phenotyping
+  - WinRhizo
+  - data cleaning
+  - WebR
+  - shinylive
+  - R
+  - open science

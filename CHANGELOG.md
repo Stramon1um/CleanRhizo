@@ -23,5 +23,8 @@
 - Distinct file names for each step: `_clean.csv` (step 3), `_treatments.csv` (step 4), `_final.csv` (step 5).
 - CSV: quotes are added only to fields containing `;`, quotes or line breaks.
 
+### Repository
+- `CITATION.cff` added: GitHub shows a "Cite this repository" button and Zenodo reads the citation metadata from it.
+
 ## v1.0 (2026-08-11)
 - First public release. DOI: [10.5281/zenodo.21894027](https://doi.org/10.5281/zenodo.21894027)
